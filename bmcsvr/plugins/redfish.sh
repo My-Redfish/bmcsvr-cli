@@ -1944,16 +1944,7 @@ _inv_gpu() {
     echo "$tsvdata" | eval "$display_table" 2>/dev/null || echo "$tsvdata" | column -t -s $'\t'
     echo -e "Total GPUs Found: ${BOLD}${count}${RESET}"
 }
-: "
-        echo "$p" | jq -r '[
-            (.Id//"?"),
-            (.Model//"?"),
-            (.ProcessorArchitecture//"?"),
-            ((.TotalCores//0)|tostring),
-            ((.TotalThreads//0)|tostring),
-            ((.MaxSpeedMHz//0)|tostring)
-        ] | @tsv' | awk -F'\t' '{printf "%-14s %-86s %-12s %-8s %-8s %-20s\n",$1,$2,$3,$4,$5,$6}'
-"
+
 _inv_mem() {
     # 1. Discover the System path (Memory is usually under /Systems)
     local system_path
@@ -2022,18 +2013,6 @@ _inv_mem() {
 }
 
 
-: "
-       echo "$d" | jq -r '[
-            (.Id//"?"),
-            (.Manufacturer//"?"),
-            ((.CapacityMiB//0)|tostring),
-            ((.OperatingSpeedMhz//0)|tostring)+"MHz",
-            (.MemoryDeviceType//"?"),
-            (.Status.State//"?")
-        ] | @tsv' | awk -F'\t' '{printf "%-14s %-20s %-11s %-10s %-12s %-10s\n",$1,$2,$3,$4,$5,$6}'
-
-
-"
 _inv_pcieslot() {
     # 1. Discover the Chassis path
     local chassis_path
@@ -2258,22 +2237,6 @@ _inv_psu() {
     echo "$tsvdata" | eval "$display_table" 2>/dev/null || echo "$tsvdata" | column -t -s $'\t'
     echo -e "Total PSUs: ${BOLD}${count}${RESET}"
 } 
-
-: "
-        echo "$data" | jq -r '.Members[]."@odata.id" // empty' | while read -r psu; do
-            ((current++))
-            printf "\rProcessing PSU: [%d/%d] %s...   " "$current" "$total" "${psu##*/}" >&2
-            rf_get "${psu#$REDFISH_BASE}" | jq -c '{
-                Id: .Id,
-                Model: .Model,
-                Capacity: (((.PowerCapacityWatts | tostring) // "0") + " W"),
-                Firmware: .FirmwareVersion,
-                SerialNumber: .SerialNumber,
-                Status: (.Status.State // .Status // "Unknown")
-            }'
-        done | jq -s '.'
-"
-
 
 _inv_storage() {
     # 1. Discover the System path
