@@ -126,7 +126,7 @@ cmd_node_add() {
     local host user pass
 
     while [[ $# -gt 0 ]]; do
-        case "$1" in
+        case "${1:-}" in
             --host) host="$2"; shift 2;;
             --user) user="$2"; shift 2;;
             --pass) pass="$2"; shift 2;;
@@ -151,7 +151,7 @@ EOF
 }
 
 cmd_node_get() {
-    local name="$1"
+    local name="${1:-}"
     local field="$2"
 
     [[ -z "$name" || -z "$field" ]] && cmd_node_help get && die "Usage: node get <name> <field>"
@@ -329,7 +329,7 @@ cmd_node_list() {
         --arg DATA_TYPE "$DATA_TYPE" \
         '{ Type: $DATA_TYPE, Data: ., Count: length }')
     #dbg echo $jsondata1 | jq 
-    case "$1" in
+    case "${1:-}" in
         --json) echo $jsondata1 | jq -c;;
         --yaml) print_yaml ;;
 
@@ -436,7 +436,7 @@ cmd_node_test() {
 ########################################
 
 cmd_node_help() {
-    case "$1" in
+    case "${1:-}" in
         add)
             cat <<EOF
 ${BOLD}Usage${RESET}:
@@ -586,7 +586,7 @@ EOF
 
 
 cmd_node() {
-    case "$1" in
+    case "${1:-}" in
         add) shift; cmd_node_add "$@" ; cmd_node_show $1;;
         get) shift; cmd_node_get "$@" ;;
         set) shift; cmd_node_set "$@" ; cmd_node_show $1;;
