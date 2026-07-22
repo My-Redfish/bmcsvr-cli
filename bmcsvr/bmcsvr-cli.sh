@@ -8,6 +8,7 @@
 
 # ── Constants ─────────────────────────────────────────────────────────────────
 SCRIPT_NAME="$(basename "$0")"
+
 VERSION="1.0.0"
 REDFISH_BASE="/redfish/v1"
 BMC_PORT="${BMC_PORT:-443}"
@@ -18,8 +19,12 @@ OUTPUT_FMT="table"   # default output format: table | json
 FILTER_EXPR=""
  
 
+BASE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+#BASE_DIR="$(cd "$(dirname "$0")" && pwd)"
 
-BASE_DIR="$(cd "$(dirname "$0")" && pwd)"
+SCRIPT=$(readlink -f "${BASH_SOURCE[0]}")
+SCRIPT_DIR=$(dirname "$SCRIPT")
+BASE_DIR="$SCRIPT_DIR"
 
 # 載入核心
 source "$BASE_DIR/lib/core.sh"
