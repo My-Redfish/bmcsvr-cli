@@ -2,15 +2,15 @@
 
 
 ## 安裝 (for WSL/Linux/MacOS)
-
+```
 curl -fsSL https://github.com/My-Redfish/test/releases/latest/download/install.sh | bash
-
+```
 ## 安裝內容
-
+```
 ipmitool
 redfishtool
 bmcsvr-cli
-
+```
 ## bmcsvr 使用範例
 
 ### 掃描BMC Machine 
