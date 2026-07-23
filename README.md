@@ -38,7 +38,7 @@ bmcsvc inventory <node> gpu
 bmcsvc inventory <node> psu
 bmcsvc inventory <node> storage
 ```
-### sensors
+### Sensors
 ```
 bmcsvc sensors <node> fan
 bmcsvc sensors <node> temp
