@@ -13,7 +13,12 @@ bmcsvc-cli
 ```
 ## bmcsvc 使用範例
 
-### 掃描BMC Machine 
+### Version 
+```
+bmcsvc version
+```
+
+### Scan
 ```
 bmcsvc scan 10.1.6.0/24
 ```
