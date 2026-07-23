@@ -1,4 +1,4 @@
-# test
+# bmcsvc/bmcsvr ?????
 
 
 ## 安裝 (for WSL/Linux/MacOS)
